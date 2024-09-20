@@ -23,48 +23,51 @@ class NewsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      
       future: fetchNews(text),
-      
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-        
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
           List<dynamic> news = snapshot.data!;
+          if (news.isEmpty) {
+            return Center(
+              child: Text(
+                'ไม่พบข่าวที่ต้องการ',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            );
+          }
           return ListView.builder(
             itemCount: news.length,
             itemBuilder: (context, index) {
               final newsItem = news[index];
-              
               if (newsItem['หัวข้อข่าว'] != null && newsItem['ลิงค์ข่าว'] != null) {
-
                 return Container(
-                  
                   margin: const EdgeInsets.all(20),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.grey[200], // กำหนดสีพื้นหลังเป็นสีเทาอ่อน
-                    borderRadius: BorderRadius.circular(15), // กำหนดรูปร่างของ Container
-  ),
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: 25),
                       Text(
-                        newsItem['หัวข้อข่าว']!, 
+                        newsItem['หัวข้อข่าว']!,
                         style: const TextStyle(
-                          
                           fontWeight: FontWeight.bold,
                           fontSize: 30,
-                          decoration: TextDecoration.none,
+                           decoration: TextDecoration.none,
                         ),
                       ),
-
                       SizedBox(height: 12),
-
                       GestureDetector(
                         onTap: () {
                           launchInBrowser(Uri.parse(newsItem['ลิงค์ข่าว']!)); 
@@ -88,7 +91,7 @@ class NewsWidget extends StatelessWidget {
                               fontSize: 12,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.none,
+                               decoration: TextDecoration.none,
                             ),
                           ),
                         ),
@@ -97,22 +100,16 @@ class NewsWidget extends StatelessWidget {
                   ),
                 );
               } else {
-                
                 return Container(
                   child: const Text(
-                            "Null",
-                            
-                          ),
+                    "Null",
+                  ),
                 );
               }
             },
-
           );
         }
       },
-      
     );
   }
 }
-
-

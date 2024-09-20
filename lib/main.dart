@@ -44,13 +44,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _bodyEditingController = TextEditingController();
+  // ignore: unused_field
   String _result = '';
+  // ignore: unused_field
   String _resultsvm = '';
+  // ignore: unused_field
   String _resultknn = '';
+  // ignore: unused_field
   String _resultgbc = '';
   // ignore: unused_field
   String _news = '';
-  
+  String _result_tblstm = '';
+  String _result_tbsvm = '';
+  String _result_tbknn = '';
+  String _result_tbgbc = '';
    
   
 
@@ -105,7 +113,59 @@ class _MyHomePageState extends State<MyHomePage> {
     throw Exception('Failed to load data');
   }
 }
+//////////////////////////////////////////////////////////////////////////
+   
+   Future<void> _predict_tb_lstm(String text,String body) async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:8000/predict_tb_lstm?text=$text&body=$body'));
+    if (response.statusCode == 200) {
+      setState(() {
+        _result_tblstm = utf8.decode(jsonDecode(response.body)['sentiment'].runes.toList());
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
+  Future<void> _predict_tb_svm(String text,String body) async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:8000/predict_tb_svm?text=$text&body=$body'));
+    if (response.statusCode == 200) {
+      setState(() {
+        _result_tbsvm = utf8.decode(jsonDecode(response.body)['sentiment'].runes.toList());
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<void> _predict_tb_knn(String text,String body) async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:8000/predict_tb_knn?text=$text&body=$body'));
+    if (response.statusCode == 200) {
+      setState(() {
+        _result_tbknn = utf8.decode(jsonDecode(response.body)['sentiment'].runes.toList());
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<void> _predict_tb_gbc(String text,String body) async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:8000/predict_tb_gbc?text=$text&body=$body'));
+    if (response.statusCode == 200) {
+      setState(() {
+        _result_tbgbc = utf8.decode(jsonDecode(response.body)['sentiment'].runes.toList());
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -138,17 +198,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 controller: _textEditingController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
-                  hintText: 'Enter news text...',
+                  hintText: 'Enter news title...',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _bodyEditingController,
+                textAlign: TextAlign.center,
+                decoration: const InputDecoration(
+                  hintText: 'Enter news body...',
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
             ElevatedButton(
               onPressed: () {
-                _predictFakeNews(_textEditingController.text);
-                _predictSVM(_textEditingController.text);
-                _predictKNN(_textEditingController.text);
-                _predictGBC(_textEditingController.text);
+                _predict_tb_lstm(_textEditingController.text,_bodyEditingController.text);
+                _predict_tb_svm(_textEditingController.text,_bodyEditingController.text);
+                _predict_tb_knn(_textEditingController.text,_bodyEditingController.text);
+                _predict_tb_gbc(_textEditingController.text,_bodyEditingController.text);
               },
               child:  Text(
                 'Predict',
@@ -156,13 +227,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               style: ElevatedButton.styleFrom(
                 // ignore: deprecated_member_use
-                primary: Theme.of(context).primaryColor,
+                backgroundColor: Color.fromARGB(222, 222, 0, 0)
               ),
             ),
             // ignore: prefer_const_constructors
             SizedBox(height: 20),
             Text(
-              'LSTM: $_result SVM: $_resultsvm KNN: $_resultknn GBC: $_resultgbc',
+              'LSTM: $_result_tblstm SVM: $_result_tbsvm KNN: $_result_tbknn GBC: $_result_tbgbc',
               
               style: Theme.of(context).textTheme.bodyLarge,
             ),
@@ -182,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               style: ElevatedButton.styleFrom(
                 // ignore: deprecated_member_use
-                primary: Theme.of(context).primaryColor,
+                backgroundColor: Color.fromARGB(222, 222, 0, 0)
               ),
             ),
 
