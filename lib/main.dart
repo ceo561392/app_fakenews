@@ -208,9 +208,28 @@ class _ResultCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18)),
       child: Row(children: [
-        Container(width: 38, height: 38, decoration: BoxDecoration(color: color.withOpacity(.12), borderRadius: BorderRadius.circular(12)), child: Icon(isSafe ? Icons.check_rounded : Icons.priority_high_rounded, color: color)),
+        Container(
+          width: 38,
+          height: 38,
+          decoration: BoxDecoration(
+            color: color.withOpacity(.12),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(
+            isSafe ? Icons.check_rounded : Icons.priority_high_rounded,
+            color: color,
+          ),
+        ),
         const SizedBox(width: 13),
-        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(model, style: const TextStyle(fontWeight: FontWeight.w800)), Text(result, style: TextStyle(color: color, fontWeight: FontWeight.w600))])),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(model, style: const TextStyle(fontWeight: FontWeight.w800)),
+              Text(result, style: TextStyle(color: color, fontWeight: FontWeight.w600)),
+            ],
+          ),
+        ),
       ]),
     );
   }
@@ -219,12 +238,48 @@ class _ResultCard extends StatelessWidget {
 class _Notice extends StatelessWidget {
   const _Notice({required this.message});
   final String message;
+
   @override
-  Widget build(BuildContext context) => Container(padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: const Color(0xFFFFE9E7), borderRadius: BorderRadius.circular(16)), child: Row(children: [const Icon(Icons.info_outline, color: Color(0xFFB42318)), const SizedBox(width: 10), Expanded(child: Text(message, style: const TextStyle(color: Color(0xFF8C1D18)))]));
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFE9E7),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.info_outline, color: Color(0xFFB42318)),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(color: Color(0xFF8C1D18)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _PrivacyNote extends StatelessWidget {
   const _PrivacyNote();
+
   @override
-  Widget build(BuildContext context) => const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [Icon(Icons.lock_outline, size: 17, color: Color(0xFF86868B)), SizedBox(width: 8), Expanded(child: Text('ผลลัพธ์เป็นข้อมูลช่วยประกอบการตัดสินใจ ควรตรวจสอบแหล่งข่าวต้นทางเพิ่มเติมเสมอ', style: TextStyle(color: Color(0xFF86868B), height: 1.45)))]);
+  Widget build(BuildContext context) {
+    return const Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(Icons.lock_outline, size: 17, color: Color(0xFF86868B)),
+        SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            'ผลลัพธ์เป็นข้อมูลช่วยประกอบการตัดสินใจ ควรตรวจสอบแหล่งข่าวต้นทางเพิ่มเติมเสมอ',
+            style: TextStyle(color: Color(0xFF86868B), height: 1.45),
+          ),
+        ),
+      ],
+    );
+  }
 }
