@@ -14,13 +14,23 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Fake News Detector',
       theme: ThemeData(
-        primaryColor: Color.fromARGB(255, 250, 30, 30),
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF111827), brightness: Brightness.light),
+        scaffoldBackgroundColor: const Color(0xFFF5F5F7),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF111827), width: 1.5)),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), elevation: 0)),
         
         // ignore: deprecated_member_use
         backgroundColor: const Color.fromARGB(255, 10, 1, 1),
         textTheme: TextTheme(
           titleLarge: TextStyle(
-            color: Color.fromARGB(255, 129, 255, 150),
+            color: Color(0xFF111827),
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -177,9 +187,12 @@ class _MyHomePageState extends State<MyHomePage> {
           'Fake News Detector',
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        backgroundColor: Color.fromARGB(255, 247, 54, 54),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: const Color(0xFF111827),
       ),
-      backgroundColor: Color.fromARGB(255, 188, 255, 233),
+      backgroundColor: const Color(0xFFF5F5F7),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
